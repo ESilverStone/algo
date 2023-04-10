@@ -1,0 +1,81 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class p1976_여행가자 {
+	static int[] p; //대표를 저장할 배열
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		int N = Integer.parseInt(br.readLine()); 
+		int M = Integer.parseInt(br.readLine()); 
+		
+		int[][] arr = new int[N+1][N+1];
+		int[] plan = new int[M];
+		
+		int[][] conn = new int[N+1][N+1];
+		
+		p = new int[N+1];
+		//make-set 하자. (나 자신을 대표로 초기화 하자.
+		for(int i = 1 ; i<=N; i++) {
+//			makeset(i);
+			p[i] = i;
+		}//makeset 다했어~
+		
+		
+		for(int i=1; i<=N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=1; j<=N; j++) {
+				arr[i][j] = Integer.parseInt(st.nextToken());
+				
+				if(arr[i][j] == 1) {
+					
+					union(i,j);
+					
+				}
+				//conn[i][j] = conn[j][i] = 1;
+			}
+		}
+		
+		st = new StringTokenizer(br.readLine());
+		
+		boolean poss = true;
+		
+		for(int i=0; i<M; i++) {
+			plan[i] = Integer.parseInt(st.nextToken());
+			
+			if(i!=0) {
+				if(findset(plan[i]) != findset(plan[i-1])) {
+					poss = false;
+					break;
+				}
+			}
+			
+		}
+		
+		if(poss) 	System.out.println("YES");
+		else		System.out.println("NO");
+		
+		
+	}
+	
+	static int findset(int x) {
+		if(x != p[x])
+			p[x] = findset(p[x]);
+		return p[x];
+	}
+	
+	static void union(int x, int y) {
+		p[findset(y)] = findset(x); //rank 이런거 고려 안했고 그냥 y를 무조건 x밑으로
+		//p[y] = x; //정석은 아니지만 이번문제에서 가능한 부분
+		//허나 왜이렇게 써도 되는지는 고민을 해보고 알고 써야되는 부분
+	}
+	
+	static void makeset(int x) {
+		p[x] = x;
+		//Rank는 따로 하지 않겠습니당
+	}
+}

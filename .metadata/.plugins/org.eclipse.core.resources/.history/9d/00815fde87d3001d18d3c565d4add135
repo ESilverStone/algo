@@ -1,0 +1,169 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class p17136_색종이붙이기 {
+
+	static int[][] arr;
+	static int[] inven; 
+	static int cnt;
+	static int min;
+	
+	static void func(int posI, int posJ, int cnt) {
+		
+		// 열을 넘어가면 행으로 전한
+		if(posJ == 10) {
+			posJ = 0;
+			posI++;
+		}
+		
+		if(cnt >= min) return;
+		
+		// 배열의 끝에 도달하면 응 돌아가
+		if(posI == 9 && posJ == 9) {
+			if(arr[posI][posJ] == 1) cnt++;
+			
+			// 최소값 비교
+			if(min > cnt) min = cnt;
+		
+			return;
+		}
+		
+		// 0인 지역이면 넘어가기
+		if(arr[posI][posJ] == 0) {
+			func(posI, posJ+1, cnt);
+			return;
+		}
+		
+		// 0이 아니여야만 카운팅할 수 있다.
+		cnt++;
+		
+		// 색종이 최대 길이
+		
+		
+		// 최대 길이부터 완전 탐색한다. 
+		for(int i=1; i<=5; i++) {
+			
+			if(inven[i] == 0) continue;
+			
+			if(check2(posI,posJ,i)) continue;
+			
+			
+			inven[i]--;
+			
+			// 0으로 바꿔버리기 ㅋ
+			coating(posI,posJ,i,0);
+					
+			// 다음 위치로 이동
+			func(posI, posJ+1, cnt);
+			
+			// 초기화
+			coating(posI,posJ,i,1);
+			
+			inven[i]++;
+			
+		}
+		return;
+	}
+	
+	// 덮어 씌울 색종이의 최대 한 변의 길이가 몇인지 파악
+	static int check(int startI, int startJ) {
+		
+		int minIdx = Integer.MAX_VALUE;
+		
+		for(int i=0; i<5; i++) {
+			
+			for(int j=0; j<5; j++) {
+				
+				int curI = startI + i;
+				int curJ = startJ + j;
+				
+				int temp = Math.max(i, j);	
+				
+				if(curI >= 10 || curJ >= 10 || arr[curI][curJ] == 0) {
+					if(temp < minIdx) minIdx = temp;
+				}
+			}	
+		}
+		
+		if(minIdx == Integer.MAX_VALUE)
+			return 5;
+		else 
+			return minIdx;
+	}
+	
+	
+	static boolean check2(int startI, int startJ, int leng) {
+		
+	
+		
+		for(int i=0; i<5; i++) {
+			
+			for(int j=0; j<5; j++) {
+				
+				int curI = startI + i;
+				int curJ = startJ + j;
+				
+				int temp = Math.max(i, j);	
+				
+				if(curI >= 10 || curJ >= 10 || arr[curI][curJ] == 0) {
+					if(temp < minIdx) minIdx = temp;
+				}
+			}	
+		}
+		
+		if(minIdx == Integer.MAX_VALUE)
+			return 5;
+		else 
+			return minIdx;
+	}
+	
+	static void coating(int startI, int startJ, int leng, int numb) {
+		int curI,curJ;
+		
+		for(int i=0; i<leng; i++) {	
+			for(int j=0; j<leng; j++) {	
+				curI = startI + i;
+				curJ = startJ + j;
+				
+				if(curI >= 10 || curJ >= 10) continue;
+				
+				arr[curI][curJ] = numb;	
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		arr = new int[10][10];
+		
+		// 입력
+		for(int i=0; i<10; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0; j<10; j++) {
+				
+				arr[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		// 초기화
+		cnt = 0;
+		min = Integer.MAX_VALUE;
+		
+		inven = new int[6];
+		for(int i=1; i<6; i++) {
+			inven[i] = 5;
+		}
+		
+		// 검사
+		func(0,0,0);
+		
+		if(min == Integer.MAX_VALUE) 
+			System.out.println(-1);
+		else 
+			System.out.println(min);		
+	}	
+}

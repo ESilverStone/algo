@@ -1,0 +1,67 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class p2836_수상택시2 {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		//입력받기
+		String str = br.readLine();
+		st = new StringTokenizer(str);
+		
+		//N명의 사람
+		int N = Integer.parseInt(st.nextToken());
+		//M번까지의 집
+		int M = Integer.parseInt(st.nextToken());
+		
+		int[][] arr = new int[N][2];
+		
+		//N줄 입력받기
+		for (int i=0; i<N; i++) {
+			st = new StringTokenizer(br.readLine());
+			arr[i][0]=Integer.parseInt(st.nextToken());
+			arr[i][1]=Integer.parseInt(st.nextToken());
+		}
+		
+		//정렬한다.
+		Arrays.sort(arr, (e1, e2) -> {
+			return e1[1]-e2[1];
+		});
+		
+		for(int i=0; i<N; i++) {
+			System.out.println(Arrays.toString(arr[i]));
+		}
+		
+		//선을 카운트하기 위한 변수
+		long sum=0;
+		//선의 점을 담기 위한 변수
+		int start=0;
+		int end=0;
+		for (int i=0; i<N; i++) {
+			//돌아가야 하는 경우만 스위핑 선을 만들어준다. 
+			if (arr[i][0] > arr[i][1]) {
+				//탐색하다가 만난 end가 기존 start보다 작은 경우(선이 겹치는 경우) 새로 정의
+				if (arr[i][1]<=start) {
+					start = Math.max(start,arr[i][0]);
+					end = Math.min(end, arr[i][1]);
+				}
+				//기존 선에 겹치지 않는 경우
+				else {
+					//기존 선을 총합에 더해주고 새로운 선을 정의한다.
+					sum+=(start-end)*2;
+					start = arr[i][0];
+					end = arr[i][1];
+				}
+			}
+		}//arr[][] 탐색 끝
+		
+		sum+=(start-end)*2+M;
+		
+		System.out.println(sum);
+	}//main
+}

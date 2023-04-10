@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class p1463_1로만들기 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int x = sc.nextInt();
+		
+		
+		int[] dp = new int[x+1];
+		
+		// 1부터 시작해서 x를 완성해나간다.
+		for(int i=1; i<=x; i++) {
+			
+			// 1. +1하는게 기본 base
+			dp[i] = dp[i-1] + 1;
+			
+			
+		}
+		
+		
+	}
+}

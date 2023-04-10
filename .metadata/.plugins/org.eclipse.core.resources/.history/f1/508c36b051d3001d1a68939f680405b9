@@ -1,0 +1,89 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Point {
+	
+	int val;
+	int time;
+	
+	public Point(int val, int time) {
+		this.val = val;
+		this.time = time;
+	}
+}
+
+public class p12851_¼û¹Ù²ÀÁú2 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		int K = sc.nextInt();
+		
+		int resultT = Integer.MAX_VALUE;
+		boolean lock = false;
+		int cnt = 0;
+				
+		// BFS Å½»ö
+		Queue<Point> que = new LinkedList<Point>();
+		
+		Map<Integer, Integer> visit = new HashMap<>();
+		
+		que.add(new Point(N, 0));
+		visit.put(N, 1);
+		
+		while(!que.isEmpty()) {
+			
+			Point pos = que.poll();
+			
+			int curV = pos.val;
+			int curT = pos.time;
+			
+			System.out.print("curV : "+curV);
+			System.out.println("curT : "+curT);
+			
+			
+			// Á¤´ä Á¶°Ç
+			if(curV == K) {
+				
+				if(curT > resultT) continue;
+				
+				resultT = curT;
+				lock = true;
+				cnt++;
+			} 
+			
+			// Å»Ãâ Á¶°Ç
+			if(lock) continue;
+			
+			
+			// +1
+			if(curV+1 > 0 && curV+1 <200000) {
+				int same = visit.getOrDefault(curV+1, 0);
+				visit.put(curV+1, same+1);
+				que.add(new Point(curV+1, curT+1));			
+			}
+			
+			// -1
+			if(curV-1 > 0 && curV-1 <200000) {
+				int same = visit.getOrDefault(curV-1, 0);
+				visit.put(curV-1, same+1);
+				que.add(new Point(curV-1, curT+1));				
+			}
+			
+			// *2
+			if(curV*2 > 0 && curV*2 <200000) {
+				int same = visit.getOrDefault(curV*2, 0);
+				visit.put(curV*2, same+1);
+				que.add(new Point(curV*2, curT+1));		
+			}
+		}
+		// while ³¡
+		System.out.println(resultT);
+		System.out.println(cnt);	
+	}
+}

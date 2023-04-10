@@ -1,0 +1,55 @@
+
+import java.awt.geom.Area;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class p1753_최단경로 {
+	 public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		// 노드와 간선
+		st = new StringTokenizer(br.readLine());
+		int node = Integer.parseInt(st.nextToken());
+		int e = Integer.parseInt(st.nextToken());
+		
+		// 시작점
+		st = new StringTokenizer(br.readLine());
+		int start = Integer.parseInt(st.nextToken());
+		
+		
+		List<int[]>[] lines = new ArrayList[node+1];
+		
+		for(int i=0; i<node+1; i++) {
+			lines[i] = new ArrayList<>();
+		}
+		
+		
+		
+		// 간선 입력
+		for(int i=0; i<e; i++) {
+			st = new StringTokenizer(br.readLine());
+			int u = Integer.parseInt(st.nextToken());
+			int v = Integer.parseInt(st.nextToken());
+			int w = Integer.parseInt(st.nextToken());
+			
+			// 간선에 가중치를 넣어준다.
+			lines[u].add(new int[] {v,w});
+		}
+		
+		int[] D = new int[node+1];	// ?
+		int[] P = new int[node+1];	// 0이 널임
+		
+		
+		// 다잌스트라
+		
+		
+		
+		
+	}
+}

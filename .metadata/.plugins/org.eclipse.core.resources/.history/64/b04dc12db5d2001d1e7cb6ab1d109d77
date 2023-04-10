@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+public class p1012_유기농배추 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int T = sc.nextInt();
+		
+		for(int t= 0; t<T; t++) {
+			
+			int n = sc.nextInt();	// 가로
+			int m = sc.nextInt();	// 세로
+			int k = sc.nextInt();	// 배추배추
+			
+			map = new int[m][n];
+			
+			// 배추 입력
+			for(int i=0; i<k; i++) {
+				
+				int k1 = sc.nextInt();
+				int k2 = sc.nextInt();
+				
+				map[k2][k1] = 1;
+			}	
+		}
+	}
+	
+	
+	public static int[][] map;
+	
+	
+	public static void bfs() {
+		
+		
+		
+	}
+}

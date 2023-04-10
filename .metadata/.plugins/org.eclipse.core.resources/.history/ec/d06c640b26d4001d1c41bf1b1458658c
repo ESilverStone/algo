@@ -1,0 +1,115 @@
+package 보드게임컵;
+
+import java.util.Scanner;
+
+public class p27162_YachtDice {
+	
+	public static int max = Integer.MIN_VALUE;
+	
+	public static int check(String[] str, int[] dice) {
+		
+		for(int i=1; i<=12; i++) {
+			
+			int score = 0;
+			
+			if(str[i-1].equals("N")) continue;
+			
+			// 1~6까지는 각 숫자의 합
+			if(1 <= i && i <= 6) {
+				score = dice[i] * i;
+			} 
+			// 7 > four of kind
+			else if (i==7) {
+				for(int k=1; k<=6; k++) {
+					if(dice[k] >= 4) score = k * 4; 
+				}
+			}
+			// 8 > full house
+			else if(i==8) {
+				for(int k=1; k<=6; k++) {
+					
+					if(dice[k] !=2 || dice[k] !=3) {
+						if(dice[k] != 0) {
+							score = 0;
+							break;
+						}
+					}
+					score += k * dice[k];
+				}
+			}
+			// 9 > little straight
+			else if(i==9) {
+				for(int k=1; k<=5; k++) {
+					
+					if(dice[k] != 1) {
+						score = 0;
+						break;
+					}
+					score += k * dice[k];
+				}
+			}
+			// 10 > big straight
+			else if(i==10) {
+				for(int k=2; k<=6; k++) {
+					
+					if(dice[k] != 1) {
+						score = 0;
+						break;
+					}
+					score += k * dice[k];
+				}
+			}
+			// 11 > big straight
+			else if(i==11) {
+				for(int k=1; k<=6; k++) {
+					
+					if(dice[k] == 5) {
+						score = 50;
+						break;
+					}
+				}
+			}
+			// 12 > 쓰레기통
+			else if(i==10) {
+				for(int k=1; k<=6; k++) {
+					score += k * dice[k];
+				}
+			}
+			if(max < score) max = score;	
+		}
+		
+		return max;
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		// 족보 입력 받기
+		String[] str = sc.next().split("");
+		
+		// 주사위 세개
+		int[] dice = new int[7];
+		for(int i=0; i<3; i++) {
+			dice[sc.nextInt()]++;
+		}
+		
+		
+		// 나머지 주사위 두개
+		for(int i=1; i<=6; i++) {
+			for(int j=1; j<=6; j++) {
+				dice[i]++;
+				dice[j]++;
+				
+				check(str, dice);
+				
+				dice[i]--;
+				dice[j]--;
+			}	
+		}
+		
+		if(max == Integer.MIN_VALUE) 	System.out.println(0);
+		else 							System.out.println(max);
+	
+	}
+}
+

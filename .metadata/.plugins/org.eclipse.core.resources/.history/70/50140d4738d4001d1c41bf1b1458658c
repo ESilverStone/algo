@@ -1,0 +1,47 @@
+//코드 참고해서 공부해서 풀었음!
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class p1697_숨 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		int K = sc.nextInt();
+		Queue<Integer> q = new LinkedList<Integer>();
+		int [] dist = new int[100001];
+		for (int i=0; i<100001; i++) {
+			dist[i]=-1;
+		}
+		
+		q.add(N);
+		dist[N]=0;
+		while (!q.isEmpty()) {
+			
+			int x = q.poll();
+			
+			if (x == K) {
+				System.out.println(dist[x]);
+			}
+			
+			if (x*2<=100000 && dist[x*2]==-1) {
+				q.add(x*2);
+				dist[x*2] = dist[x]+1;
+			}
+			if (x+1<=100000 && dist[x+1]==-1) {
+				q.add(x+1);
+				dist[x+1] = dist[x]+1;
+			}
+			if (x-1>=0 && dist[x-1]==-1) {
+				q.add(x-1);
+				dist[x-1] = dist[x]+1;
+			}
+			
+			
+		}
+		
+	}
+	
+	
+}

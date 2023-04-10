@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Point {
+	
+	int val;
+	int time;
+	
+	public Point(int val, int time) {
+		this.val = val;
+		this.time = time;
+	}
+}
+
+public class p12851_숨바꼭질2 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		K = sc.nextInt();
+		
+		resultT = Integer.MAX_VALUE;
+		lock = false;
+		cnt = 0;
+		
+		visit = new int[2000001];
+			
+		bfs(N);
+		
+		// while 끝
+		System.out.println(resultT);
+		System.out.println(visit[K]);	
+	}
+	
+	public static int[] visit;
+	
+	public static boolean lock;
+	public static int resultT;
+	public static int cnt;
+	public static int K;
+	
+	public static void bfs(int N) {
+		
+		// BFS 탐색
+		Queue<Point> que = new LinkedList<Point>();
+		
+		que.add(new Point(N, 0));
+		
+		while(!que.isEmpty()) {
+			
+			Point pos = que.poll();
+			
+			int curV = pos.val;
+			int curT = pos.time;
+			
+			visit[curV]++;
+			
+			if(curT > resultT) return;
+			
+			System.out.print("curV : "+curV);
+			System.out.println(" curT : "+curT);
+			
+			// 정답 조건
+			if(curV == K) {
+				resultT = curT;
+				cnt++;
+			} 
+			
+	
+			// +1
+			if(curV+1 > 0 && curV+1 < 100001) {
+				
+				// 방문했으면 값을 늘리기만 하고 que에 넣지 않는다.
+				if(visit[curV+1] == 0 || visit[curV+1] == curT+1) 
+					que.add(new Point(curV+1, curT+1));		
+					visit[curV+1] = curT + 1;
+			}
+			
+			// -1
+			if(curV-1 > 0 && curV-1 < 100001) {
+				
+				if(visit[curV-1] == 0 || visit[curV-1] == curT+1) 
+					que.add(new Point(curV-1, curT+1));		
+					visit[curV-1] = curT + 1;		
+			}
+			
+			// *2
+			if(curV*2 > 0 && curV*2 < 100001) {
+				
+				if(visit[curV*2] == 0 || visit[curV*2] == curT+1) 
+					que.add(new Point(curV*2, curT+1));		
+					visit[curV*2] = curT + 1;
+			}
+		}		
+	}
+}

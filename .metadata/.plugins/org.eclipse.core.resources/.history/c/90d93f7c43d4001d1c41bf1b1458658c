@@ -1,0 +1,73 @@
+package 보드게임컵;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class p27172_수나누기게임byGPT {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		int N = Integer.parseInt(br.readLine());	// 인원수
+		
+		// 입력받은 값
+		int[] arr = new int[N];	
+		// 점수판
+		int[] board = new int[N];
+		
+		
+		// 1. 모든 플레이어의 약수 계산 및 저장
+		int n = 1000000;
+
+        List<Integer>[] divisors = new List[n + 1];
+        for (int i = 1; i <= n; i++) {
+            divisors[i] = new ArrayList<>();
+            for (int j = 1; j * j <= i; j++) {
+                if (i % j == 0) {
+                    divisors[i].add(j);
+                    if (j != i / j) {
+                        divisors[i].add(i / j);
+                    }
+                }
+            }
+        }
+		
+		
+		int max = Integer.MIN_VALUE;
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0; i<N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+			
+			if(max < arr[i]) max = arr[i];
+		}
+		
+		for(int i=0; i<N; i++) {
+			
+			for(int j=i+1; j<N; j++) {
+						
+				// 나눠지면 i의 승리
+				if(arr[j] % arr[i] == 0) {
+					board[i]++;
+					board[j]--;		
+				}
+				// 반대로 되면 j의 승리
+				else if(arr[i] % arr[j] == 0) {
+					board[j]++;		
+					board[i]--;
+				}
+			}
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		for(int i : board) {
+			sb.append(i+" ");
+		}
+		System.out.println(sb);
+	}
+}

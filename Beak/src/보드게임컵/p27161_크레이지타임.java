@@ -1,0 +1,53 @@
+package 보드게임컵;
+
+import java.util.Scanner;
+
+public class p27161_크레이지타임 {
+	
+	public static int cal(int time, boolean rvs) {
+		if(rvs) return (time - 1 == 0) ? 12 : time -1;
+		else 	return (time + 1 == 13) ? 1 : time +1;
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		
+		int time = 1;
+		boolean reverse = false;
+		
+		boolean sameTime = false;
+		boolean hourGlass = false;
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i=0; i<N; i++) {
+			
+			sb.append(time+" ");
+			
+			String str = sc.next();
+			int num = sc.nextInt();
+			
+			// 입력 받은 것으로 체크
+			if(num == time) 		sameTime = true;
+			if(str.equals("HOURGLASS")) 	hourGlass = true;
+			
+			
+			// 같은시간인데 노 모래시계 > 쾅
+			if (sameTime && !hourGlass) sb.append("YES"+"\n");
+			else 						sb.append("NO"+"\n");
+			
+			// 다른 시간이면서 모래시계 > 시간 역행
+			if(!sameTime && hourGlass) reverse = (reverse) ? false : true;	
+
+			// 다음 시간
+			time = cal(time, reverse);
+			
+			// 초기화
+			sameTime = false;
+			hourGlass = false;
+		}
+		System.out.println(sb);		
+	}
+}

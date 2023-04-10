@@ -1,0 +1,101 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+//백트랙킹 방식
+public class Test {
+    
+    static int[][] arr;
+    static int zeroCnt;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
+        
+        arr = new int[9][9];
+        
+        //입력받기
+        for (int i=0; i<9; i++) {
+            String str = br.readLine();
+            st = new StringTokenizer(str);
+            for (int j=0; j<9; j++) {
+                arr[i][j]=Integer.parseInt(st.nextToken());
+            }
+        }
+        
+        sudoku(0);
+
+        //출력하기
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                sb.append(arr[i][j]+" ");
+            }
+            sb.append("\n");
+        }
+        
+        System.out.print(sb);
+        
+    }
+    
+    //백트랙킹
+    static void sudoku (int r) {
+    	
+        for (int i=r; i<9; i++) {
+        	
+            for (int j=0; j<9; j++) {
+            	
+                if (arr[i][j] == 0) {
+                	
+                    for (int k=1; k<=9; k++) {
+                    	
+                        if (isPromising(k, i, j)) {
+                            arr[i][j]= k;
+                            sudoku(i);
+                            arr[i][j]= 0;
+                        }
+                    }
+                    
+                    if (arr[i][j] ==0) return;
+                }
+            }
+        }
+        return;    
+    }
+    
+    
+    static boolean isPromising(int o, int r, int c) {
+        //행검사
+        for (int i=0; i<9; i++) {
+            if (arr[r][i] ==o) {
+                return false;
+            }
+        }
+        
+        //열검사
+        for (int i=0; i<9; i++) {
+            if (arr[i][c] ==o) {
+                return false;
+            }
+        }
+        
+        //3*3 사각형 검사
+        int a = (r/3)*3;
+        int b = (c/3)*3;
+        
+        for (int i=a; i<a+3; i++) {
+            for (int j=b; j<b+3; j++) {
+                if (arr[i][j]==o) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+        
+    }
+    
+    
+}

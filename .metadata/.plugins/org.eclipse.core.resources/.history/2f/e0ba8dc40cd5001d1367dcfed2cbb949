@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class p2747_피보나치수2 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int N = sc.nextInt();
+		
+		dp = new Integer[N+1];
+		
+		dp[0] = 0;
+		dp[1] = 1;
+		
+		int result = fibo(N);
+		
+		System.out.println(result);		
+	}
+	
+	static Integer[] dp;
+	public static int fibo(int N) {
+		
+		if(dp[N] != null) return dp[N];
+			
+		return dp[N] = fibo(N-1) + fibo(N-2);
+	}
+}
